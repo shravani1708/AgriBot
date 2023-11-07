@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agriculture Chatbot</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 100px auto;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4caf50;
+        }
+        #chatbox {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            text-align: left;
+            margin-bottom: 20px;
+            display: none; /* Initially hide the chatbox */
+        }
+        .userMsg, .botMsg {
+            margin: 10px 0;
+        }
+        .userMsg {
+            color: #4caf50;
+            text-align: left;
+        }
+        .botMsg {
+            color: #1e88e5;
+            text-align: left;
+        }
+        #userInput {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #sendButton {
+            width: auto;
+            padding: 10px;
+            border: none;
+            background-color: #4caf50;
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        #sendButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the AgriBot!</h1>
+        <div id="chatbox"></div>
+        <form id="chatForm">
+            <input type="text" id="userInput" autocomplete="off" placeholder="Type your message...">
+            <br>
+            <input type="submit" value="Send" id="sendButton">
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#chatForm').submit(function(event){
+                event.preventDefault();
+                var userInput = $('#userInput').val();
+                $('#chatbox').css('display', 'block'); // Show the chatbox
+                $('#chatbox').append('<p class="userMsg">You: ' + userInput + '</p>');
+                $('#userInput').val('');
+                $.ajax({
+                    url: '/get_response',
+                    type: 'POST',
+                    data: {'user_input': userInput},
+                    success: function(data){
+                        $('#chatbox').append('<p class="botMsg">Bot: ' + data.response + '</p>');
+                        $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

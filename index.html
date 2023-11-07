@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AgriBot</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 100px auto;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4caf50;
+        }
+        label, select, input[type="submit"] {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        select {
+            padding: 8px;
+            border: none;
+            background-color: #4caf50;
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 45%;
+            margin: 0 auto; /* Center align the select element */
+            font-size: 14px;
+            margin-bottom: 50px; /* Add spacing between language and submit button */
+        }
+        input[type="submit"] {
+            padding: 8px;
+            border: none;
+            background-color: #4caf50;
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 45%;
+            margin: 0 auto; /* Center align the submit button */
+            font-size: 14px;
+        }
+        select:hover, input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+    
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to AgriBot!</h1>
+        <form id="languageForm">
+            <label for="languagePreference">Please select your language preference:</label>
+            <select id="languagePreference" name="languagePreference">
+                <option value="english">English</option>
+                <option value="marathi">Marathi</option>
+            </select>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#languageForm').submit(function(event){
+                event.preventDefault();
+                var languagePreference = $('#languagePreference').val();
+                $.ajax({
+                    url: '/set_language_preference',
+                    type: 'POST',
+                    data: {'language_preference': languagePreference},
+                    success: function(data){
+                        window.location.href = '/chat';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
