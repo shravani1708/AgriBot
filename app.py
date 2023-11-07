@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-from Agribot1 import get_intent_naive_bayes, get_response_based_on_intent
+from src import get_intent_naive_bayes, get_response_based_on_intent
 from googletrans import Translator
 
 translator = Translator()
